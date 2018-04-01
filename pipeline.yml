@@ -1,0 +1,113 @@
+jobs:
+- name: import-om-installation
+  serial: true
+  plan:
+  - aggregate:
+    - get: bbr-pipeline-tasks-repo
+      trigger: true
+    - get: om-install
+      trigger: true
+  - task: import-om-installation
+    file: bbr-pipeline-tasks-repo/tasks/import-om-installation/task.yml
+    params:
+      SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
+      OPSMAN_URL: {{opsman-url}}
+      OPSMAN_USERNAME: {{opsman-username}}
+      OPSMAN_PASSWORD: {{opsman-password}}      
+      PASSPHRASE: {{passphrase}}
+
+- name: apply-director-changes
+  serial: true
+  plan:
+  - aggregate:
+    - get: bbr-pipeline-tasks-repo
+      trigger: true
+  - task: apply-director-changes
+    file: bbr-pipeline-tasks-repo/tasks/apply-director-changes/task.yml
+    params:
+      SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
+      OPSMAN_URL: {{opsman-url}}
+      OPSMAN_USERNAME: {{opsman-username}}
+      OPSMAN_PASSWORD: {{opsman-password}}           
+      OPSMAN_KEY: {{opsman-key}}
+      OPSMAN_USER_EC2: {{opsman-user-ec2}}
+      OPSMAN_IP: {{opsman-ip}}
+
+  
+- name: bbr-restore-director
+  serial: true
+  plan:
+  - aggregate:
+    - get: bbr-pipeline-tasks-repo
+      trigger: true
+    - get: director-backup-bucket
+      trigger: true
+    - get: bbr-release
+      trigger: true
+  - task: extract-binary
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: kiran007anil/pcf-docker
+          tag: release-candidate
+      inputs:
+      - name: bbr-release
+      outputs:
+      - name: binary
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+          tar -xvf bbr-release/bbr*.tar
+          cp releases/bbr binary/
+  - task: bbr-restorebackup-director
+    file: bbr-pipeline-tasks-repo/tasks/bbr-restore-director/task.yml
+    params:
+      SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
+      OPSMAN_URL: {{opsman-url}}
+      OPSMAN_USERNAME: {{opsman-username}}
+      OPSMAN_PASSWORD: {{opsman-password}}
+      OPSMAN_KEY: {{opsman-key}}
+      OPSMAN_USER_EC2: {{opsman-user-ec2}}
+      OPSMAN_IP: {{opsman-ip}}
+
+
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: bbr-pipeline-tasks-repo
+  type: git
+  source:
+    uri: https://github.com/kirananil007/pcf_restore_bbr.git
+    branch: master
+- name: om-install
+  type: s3
+  source:
+    bucket: {{backup-artifact-bucket}}
+    region_name: {{storage-region}}
+    endpoint: {{storage-endpoint}}
+    access_key_id: {{storage-access-key-id}}
+    secret_access_key: {{storage-secret-access-key}}
+    versioned_file: installation.zip
+- name: director-backup-bucket
+  type: s3
+  source:
+    bucket: {{backup-artifact-bucket}}
+    region_name: {{storage-region}}
+    endpoint: {{storage-endpoint}}
+    access_key_id: {{storage-access-key-id}}
+    secret_access_key: {{storage-secret-access-key}}
+    versioned_file: director-backup.tar
+- name: bbr-release
+  type: pivnet
+  source:
+    api_token: {{pivnet-api-token}}
+    product_slug: p-bosh-backup-and-restore
