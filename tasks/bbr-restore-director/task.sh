@@ -2,7 +2,7 @@
 . "$(dirname $0)"/../../scripts/export-director-metadata
 echo we can run any bash command here!!!!
 expect - <<EOF
-spawn ssh -i /home/ubuntu/"${OPSMAN_KEY}" ${OPSMAN_USER_EC2}@${OPSMAN_IP}
+spawn ssh -i "${OPSMAN_KEY}" ${OPSMAN_USER_EC2}@${OPSMAN_IP}
 expect {
 "*you sure you want to continue*" {send "yes"}
 }
