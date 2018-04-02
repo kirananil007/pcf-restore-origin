@@ -1,11 +1,15 @@
 #!/bin/bash -eu
 
 . "$(dirname $0)"/../../scripts/export-director-metadata
-echo $OPSMAN_KEY > ~/ssh_access
-chmod 600 ~/ssh_access
-chown $USER.$USER ~/ssh_access
+#echo $OPSMAN_KEY > ~/ssh_access
+#chmod 600 ~/ssh_access
+#chown $USER.$USER ~/ssh_access
+echo $OPSMAN_KEY  | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > ssh_access.pem
+ssh-agent > ~/agent
+ssh-add ~/ssh_access.pem
+
 #login to opsman
-ssh -i ~/ssh_access -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" <<EOF
+ssh -i ~/ssh_access.pem -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" <<EOF
 cd /var/tempest/workspaces/default/
 #sudo bosh2 alias-env sst-director -e 10.0.16.5 --ca-cert root_ca_certificate
 EOF
