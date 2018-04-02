@@ -1,25 +1,33 @@
-#!/bin/bash -eu
+/usr/bin/expect <<EOF
 
-. "$(dirname $0)"/../../scripts/export-director-metadata
+send ". "$(dirname $0)"/../../scripts/export-director-metadata\n"
+expect "*$hostnam*>"
 
-##login to opsman
-ssh -i "${OPSMAN_KEY}" -o CheckHostIP=no "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" -T <<EOF
-cd /var/tempest/workspaces/default/
-#sudo bosh2 alias-env sst-director -e 10.0.16.5 --ca-cert root_ca_certificate
+## removing the bosh_state file from opsman
+spawn ssh -i "${OPSMAN_KEY}" -o "StrictHostKeyChecking no" "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}"
+expect "*you sure you want to continue*"
+send "yes\r"
+expect "*$hostnam*>"
+send "sudo cat /var/tempest/workspaces/default/deployments/bosh-state.json\n"
+expect "*$hostnam*>"
+send "echo $PWD\n"
+expect "*$hostnam*>"
+send "bosh2 -e sst-director login\n"
+expect "Email():"
+send "$BOSH_USER\r"
+expect "Password ():"
+send "$BOSH_PASSWORD\r"
+expect eof
+send "bosh2 -e sst-director vms\n"
+expect "*$hostnam*>"
+#sudo rm -rf /var/tempest/workspaces/default/deployments/bosh-state.json
+
+
+## applying changes to opsman director
+#om_cmd apply-changes --ignore-warnings
+
+
+
+send "echo "BOSH director restoration is successful!\n"
+expect "*$hostnam*>"
 EOF
-echo ${PWD}
-#sudo bosh2 -e sst-director login
-
-#om_cmd curl -p /api/v0/deployed/director/credentials/bbr_ssh_credentials > bbr_keys.json
-#BOSH_PRIVATE_KEY=$(jq -r '.credential.value.private_key_pem' bbr_keys.json)
-
-## extract the s3 bucket contents
-#cd ../../../director-backup-bucket
-#cp -r director-*.tar ../binary/
-#cd ../binary/
-#tar -xvf director-*.tar
-
-## the restoration of bosh director
-#./bbr director --private-key-path <(echo "${BBR_PRIVATE_KEY}") --username bbr --host "${BOSH_ADDRESS}" restore --artifact-path 10.0.*
-
-echo "BOSH director restoration is successful!"
