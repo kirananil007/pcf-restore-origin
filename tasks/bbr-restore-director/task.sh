@@ -3,7 +3,7 @@
 . "$(dirname $0)"/../../scripts/export-director-metadata
 
 ##login to opsman
-ssh -i -o StrictHostKeyChecking=no "${OPSMAN_KEY}" "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" -T <<EOF
+ssh -i "${OPSMAN_KEY}" -o CheckHostIP=no "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" -T <<EOF
 cd /var/tempest/workspaces/default/
 #sudo bosh2 alias-env sst-director -e 10.0.16.5 --ca-cert root_ca_certificate
 EOF
