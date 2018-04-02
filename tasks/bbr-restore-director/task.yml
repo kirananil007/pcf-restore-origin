@@ -29,5 +29,5 @@ run:
   - -c
   - |
     cd bbr-pipeline-tasks-repo/tasks/bbr-restore-director/
-    chmod +x task2.sh
-    ./task2.sh
+    chmod +x task.sh
+    ./task.sh
