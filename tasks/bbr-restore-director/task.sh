@@ -1,25 +1,27 @@
-#!/bin/bash -eu
-
+#!/bin/bash
 . "$(dirname $0)"/../../scripts/export-director-metadata
-
-##login to opsman
-ssh -i "${OPSMAN_KEY}" -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" <<EOF
-cd /var/tempest/workspaces/default/
-#sudo bosh2 alias-env sst-director -e 10.0.16.5 --ca-cert root_ca_certificate
+echo we can run any bash command here!!!!
+expect - <<EOF
+spawn ssh -i "${OPSMAN_KEY}" ${OPSMAN_USER_EC2}@${OPSMAN_IP}
+expect {
+"*you sure you want to continue*" {send "yes"}
+}
+##expect "*you sure you want to continue*"
+##send "yes\r"
+send "sudo cat /var/tempest/workspaces/default/deployments/bosh-state.json\n"
+expect "*$hostnam*>"
+send "sudo su -\n"
+expect "*$hostnam*>"
+send "cd /var/tempest/workspaces/default/\n"
+expect "*$hostnam*>"
+send "bosh2 -e sst-director login\n"
+expect "Email():"
+send "$BOSH_USER\r"
+expect "Password ():"
+send "$BOSH_PASSWORD\r"
+expect eof
+send "bosh2 -e sst-director vms\n"
+expect "*$hostnam*>"
+send "echo BOSH director restoration is successful!!!\n"
+expect "*$hostnam*>"
 EOF
-echo ${PWD}
-#sudo bosh2 -e sst-director login
-
-#om_cmd curl -p /api/v0/deployed/director/credentials/bbr_ssh_credentials > bbr_keys.json
-#BOSH_PRIVATE_KEY=$(jq -r '.credential.value.private_key_pem' bbr_keys.json)
-
-## extract the s3 bucket contents
-#cd ../../../director-backup-bucket
-#cp -r director-*.tar ../binary/
-#cd ../binary/
-#tar -xvf director-*.tar
-
-## the restoration of bosh director
-#./bbr director --private-key-path <(echo "${BBR_PRIVATE_KEY}") --username bbr --host "${BOSH_ADDRESS}" restore --artifact-path 10.0.*
-
-echo "BOSH director restoration is successful!"
