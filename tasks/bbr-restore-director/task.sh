@@ -4,7 +4,8 @@
 #expect "*$hostnam*>"
 
 ## removing the bosh_state file from opsman
-spawn ssh -i "${OPSMAN_KEY}" -o "StrictHostKeyChecking no" "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}"
+#spawn ssh -i "${OPSMAN_KEY}" -o "StrictHostKeyChecking no" "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}"
+spawn ssh -i "${OPSMAN_KEY}" "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}"
 expect "*you sure you want to continue*"
 send "yes\r"
 expect "*$hostnam*>"
