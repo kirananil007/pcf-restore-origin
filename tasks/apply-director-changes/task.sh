@@ -4,9 +4,9 @@
 
 
 ## removing the bosh_state file from opsman
-ssh -tt -i "${OPSMAN_KEY}" -o "StrictHostKeyChecking no" "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" <<EOF
+ssh -tt -i "${OPSMAN_KEY}" -o "StrictHostKeyChecking no" "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" 
 sudo cat /var/tempest/workspaces/default/deployments/bosh-state.json
-EOF
+
 echo $PWD
 #sudo rm -rf /var/tempest/workspaces/default/deployments/bosh-state.json
 
