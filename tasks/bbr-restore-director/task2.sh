@@ -14,9 +14,10 @@ ssh-add ~/ssh_access.pem
 #login to opsman
 ssh -i ~/ssh_access.pem -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" <<EOF
 cd /var/tempest/workspaces/default/
+ls -al
 #sudo bosh2 alias-env sst-director -e 10.0.16.5 --ca-cert root_ca_certificate
 EOF
-echo ${PWD}
+#echo ${PWD}
 #sudo bosh2 -e sst-director login
 
 #om_cmd curl -p /api/v0/deployed/director/credentials/bbr_ssh_credentials > bbr_keys.json
