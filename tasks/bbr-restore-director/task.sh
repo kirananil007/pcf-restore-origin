@@ -1,7 +1,7 @@
 /usr/bin/expect <<EOF
 
-send ". "$(dirname $0)"/../../scripts/export-director-metadata\n"
-expect "*$hostnam*>"
+#. "$(dirname $0)"/../../scripts/export-director-metadata\n"
+#expect "*$hostnam*>"
 
 ## removing the bosh_state file from opsman
 spawn ssh -i "${OPSMAN_KEY}" -o "StrictHostKeyChecking no" "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}"
