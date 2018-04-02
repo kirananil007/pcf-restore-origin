@@ -4,7 +4,9 @@
 #echo $OPSMAN_KEY > ~/ssh_access
 #chmod 600 ~/ssh_access
 #chown $USER.$USER ~/ssh_access
-echo $OPSMAN_KEY  | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > ssh_access.pem
+exec ssh-agent bash
+echo $OPSMAN_KEY  | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > ~/ssh_access.pem
+chmod 600 ~/ssh_access.pem
 ssh-agent > ~/agent
 ssh-add ~/ssh_access.pem
 
