@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-. "$(dirname $0)"/../../scripts/export-director-metadata
+#. "$(dirname $0)"/../../scripts/export-director-metadata
 
 
 ### setting opsman keys
@@ -18,7 +18,7 @@ EOF
 
 ## applying changes to opsman director
 #om_cmd
-om_cmd apply-changes --ignore-warnings
+om -k --target "${OPSMAN_URL}" --username "${OPSMAN_USERNAME}" --password "${OPSMAN_PASSWORD}" apply-changes --ignore-warnings
 
 
 
