@@ -26,6 +26,8 @@ BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst
 sudo bosh2 -e "${BOSH_ADDRESS}" -d cf-965df3363954837f10b3 -n cck --resolution delete_disk_reference --resolution delete_vm_reference
 EOF
 
+##apply changes to ERT
+om_cmd apply-changes --ignore-warnings
 
 
 
