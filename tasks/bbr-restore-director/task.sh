@@ -19,6 +19,8 @@ sudo bosh2 -e sst-director vms
 EOF
 
 pwd
+cd ../../../director-backup-bucket
+ls -al
 #echo we can run any bash command here!!!!
 #expect - <<EOF
 #spawn ssh -i ~/ssh_access.pem ${OPSMAN_USER_EC2}@${OPSMAN_IP}
