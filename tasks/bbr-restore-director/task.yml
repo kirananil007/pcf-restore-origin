@@ -21,7 +21,11 @@ params:
   OPSMAN_USER_EC2:
   OPSMAN_IP:
   BOSH_USER: 
-  BOSH_PASSWORD: 
+  BOSH_PASSWORD:
+  BOSH_CLIENT:
+  BOSH_CLIENT_SECRET:
+  
+  
 
 run:
   path: /bin/sh
