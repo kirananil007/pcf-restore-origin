@@ -17,6 +17,8 @@ sudo bosh2 alias-env sst-director -e ${BOSH_ADDRESS} --ca-cert root_ca_certifica
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director --ca-cert /var/tempest/workspaces/default/root_ca_certificate login
 sudo bosh2 -e sst-director vms
 EOF
+
+pwd
 #echo we can run any bash command here!!!!
 #expect - <<EOF
 #spawn ssh -i ~/ssh_access.pem ${OPSMAN_USER_EC2}@${OPSMAN_IP}
