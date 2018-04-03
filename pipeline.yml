@@ -75,6 +75,10 @@ jobs:
       OPSMAN_IP: {{opsman-ip}}
       BOSH_USER: {{bosh-username}}
       BOSH_PASSWORD: {{bosh-password}}
+      BOSH_CLIENT: {{bosh-client}}
+      BOSH_CLIENT_SECRET: {{bosh-client-secret}}
+      
+      
 
 
 resource_types:
