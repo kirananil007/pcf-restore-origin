@@ -27,7 +27,9 @@ BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst
 EOF
 
 ##apply changes to ERT
-om_cmd apply-changes --ignore-warnings
+echo "Applying changes to ERT"
+#om_cmd apply-changes --ignore-warnings
+om -k --target "${OPSMAN_URL}" --username "${OPSMAN_USERNAME}" --password "${OPSMAN_PASSWORD}" apply-changes --ignore-warnings
 
 
 
