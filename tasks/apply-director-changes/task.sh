@@ -1,8 +1,5 @@
 #!/bin/bash -eu
 
-#. "$(dirname $0)"/../../scripts/export-director-metadata
-
-
 ### setting opsman keys
 echo $OPSMAN_KEY  | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > ~/ssh_access.pem
 chmod 600 ~/ssh_access.pem
