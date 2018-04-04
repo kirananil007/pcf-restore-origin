@@ -23,7 +23,7 @@ ssh -i ~/ssh_access.pem -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${O
 cd /var/tempest/workspaces/default/
 sudo bosh2 alias-env sst-director -e ${BOSH_ADDRESS} --ca-cert root_ca_certificate
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director --ca-cert /var/tempest/workspaces/default/root_ca_certificate login
-sudo bosh2 -e "${BOSH_ADDRESS}" -d cf-965df3363954837f10b3 -n cck --resolution delete_disk_reference --resolution delete_vm_reference
+BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director -d cf-965df3363954837f10b3 -n cck --resolution delete_disk_reference --resolution delete_vm_reference
 EOF
 
 ##apply changes to ERT
