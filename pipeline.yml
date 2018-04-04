@@ -1,6 +1,8 @@
 jobs:
 - name: import-om-installation
   serial: true
+  serial_groups:
+    - serial_lock
   plan:
   - aggregate:
     - get: bbr-pipeline-tasks-repo
@@ -18,6 +20,8 @@ jobs:
 
 - name: apply-director-changes
   serial: true
+  serial_groups:
+    - serial_lock
   plan:
   - aggregate:
     - get: bbr-pipeline-tasks-repo
@@ -36,6 +40,8 @@ jobs:
   
 - name: bbr-restore-director
   serial: true
+  serial_groups:
+    - serial_lock
   plan:
   - aggregate:
     - get: bbr-pipeline-tasks-repo
