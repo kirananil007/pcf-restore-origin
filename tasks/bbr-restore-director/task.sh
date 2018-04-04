@@ -10,7 +10,7 @@ tar -xvf director-*.tar
 ## the restoration of bosh director
 ./bbr director --private-key-path <(echo "${BBR_PRIVATE_KEY}") --username bbr --host "${BOSH_ADDRESS}" restore --artifact-path 10.0.*
 
-sleep 100
+sleep 120
 
 echo $OPSMAN_KEY  | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > ~/ssh_access.pem
 chmod 600 ~/ssh_access.pem
