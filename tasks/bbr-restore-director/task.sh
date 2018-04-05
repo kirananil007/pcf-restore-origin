@@ -27,6 +27,7 @@ BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst
 cd /home/ubuntu
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director --ca-cert /var/tempest/workspaces/default/root_ca_certificate deployments > dg 
 DG=$(cat test | head -n1 | awk '{print $1;}')
+cat test | head -n1 | awk '{print $1;}'
 echo " Name is  $DG"
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director -d "$DG" -n cck --resolution delete_disk_reference --resolution delete_vm_reference
 echo "CLOUD STALE IDS REMOVED!!MANUAL TRIGGER10"
