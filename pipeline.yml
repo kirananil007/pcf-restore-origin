@@ -1,47 +1,75 @@
+---
+resources:
+- name: bbr-pipeline-tasks-repo
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/kirananil007/pcf_restore_refine.git
+- name: om-install
+  type: s3
+  source:
+    bucket: {{backup-artifact-bucket}}
+    region_name: {{storage-region}}
+    endpoint: {{storage-endpoint}}
+    access_key_id: {{storage-access-key-id}}
+    secret_access_key: {{storage-secret-access-key}}
+    versioned_file: installation.zip
+- name: director-backup-bucket
+  type: s3
+  source:
+    bucket: {{backup-artifact-bucket}}
+    region_name: {{storage-region}}
+    endpoint: {{storage-endpoint}}
+    access_key_id: {{storage-access-key-id}}
+    secret_access_key: {{storage-secret-access-key}}
+    versioned_file: director-backup.tar
+- name: bbr-release
+  type: pivnet
+  source:
+    api_token: {{pivnet-api-token}}
+    product_slug: p-bosh-backup-and-restore
+
 jobs:
-- name: import-om-installation  
-  plan:  
-    - get: bbr-pipeline-tasks-repo
-      trigger: true
-    - get: om-install
-      trigger: true
+- name: import-om-installation
+  plan:
+  - get: bbr-pipeline-tasks-repo
+    trigger: true
+  - get: om-install
+    trigger: true
   - task: import-om-installation
     file: bbr-pipeline-tasks-repo/tasks/import-om-installation/task.yml
     params:
       SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
-      OPSMAN_PASSWORD: {{opsman-password}}      
+      OPSMAN_PASSWORD: {{opsman-password}}
       PASSPHRASE: {{passphrase}}
-
 - name: apply-director-changes
   plan:
-    - get: bbr-pipeline-tasks-repo
-      trigger: true
-      passed: 
-        - import-om-installation
+  - get: bbr-pipeline-tasks-repo
+    trigger: true
+    passed:
+      - import-om-installation
   - task: apply-director-changes
     file: bbr-pipeline-tasks-repo/tasks/apply-director-changes/task.yml
     params:
       SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
       OPSMAN_URL: {{opsman-url}}
       OPSMAN_USERNAME: {{opsman-username}}
-      OPSMAN_PASSWORD: {{opsman-password}}           
+      OPSMAN_PASSWORD: {{opsman-password}}
       OPSMAN_KEY: {{opsman-key}}
       OPSMAN_USER_EC2: {{opsman-user-ec2}}
       OPSMAN_IP: {{opsman-ip}}
-
-  
 - name: bbr-restore-director
   plan:
-    - get: bbr-pipeline-tasks-repo
-      trigger: true
-      passed:
-        - apply-director-changes
-    - get: director-backup-bucket
-      trigger: true
-    - get: bbr-release
-      trigger: true
+  - get: bbr-pipeline-tasks-repo
+    passed:
+      - apply-director-changes
+    trigger: true
+  - get: director-backup-bucket
+    trigger: true
+  - get: bbr-release
+    trigger: true
   - task: extract-binary
     config:
       platform: linux
@@ -73,10 +101,6 @@ jobs:
       OPSMAN_IP: {{opsman-ip}}
       BOSH_USER: {{bosh-username}}
       BOSH_PASSWORD: {{bosh-password}}
-      
-      
-      
-
 
 resource_types:
 - name: pivnet
@@ -84,33 +108,3 @@ resource_types:
   source:
     repository: pivotalcf/pivnet-resource
     tag: latest-final
-
-resources:
-- name: bbr-pipeline-tasks-repo
-  type: git
-  source:
-    uri: https://github.com/kirananil007/pcf_restore_refine.git
-    branch: master
-- name: om-install
-  type: s3
-  source:
-    bucket: {{backup-artifact-bucket}}
-    region_name: {{storage-region}}
-    endpoint: {{storage-endpoint}}
-    access_key_id: {{storage-access-key-id}}
-    secret_access_key: {{storage-secret-access-key}}
-    versioned_file: installation.zip
-- name: director-backup-bucket
-  type: s3
-  source:
-    bucket: {{backup-artifact-bucket}}
-    region_name: {{storage-region}}
-    endpoint: {{storage-endpoint}}
-    access_key_id: {{storage-access-key-id}}
-    secret_access_key: {{storage-secret-access-key}}
-    versioned_file: director-backup.tar
-- name: bbr-release
-  type: pivnet
-  source:
-    api_token: {{pivnet-api-token}}
-    product_slug: p-bosh-backup-and-restore
