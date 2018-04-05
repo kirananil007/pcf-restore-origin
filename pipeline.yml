@@ -1,10 +1,6 @@
 jobs:
-- name: import-om-installation
-  serial: true
-  serial_groups:
-    - serial_lock
-  plan:
-  - aggregate:
+- name: import-om-installation  
+  plan:  
     - get: bbr-pipeline-tasks-repo
       trigger: true
     - get: om-install
@@ -19,13 +15,11 @@ jobs:
       PASSPHRASE: {{passphrase}}
 
 - name: apply-director-changes
-  serial: true
-  serial_groups:
-    - serial_lock
   plan:
-  - aggregate:
     - get: bbr-pipeline-tasks-repo
       trigger: true
+      passed: 
+        - import-om-installation
   - task: apply-director-changes
     file: bbr-pipeline-tasks-repo/tasks/apply-director-changes/task.yml
     params:
@@ -39,13 +33,11 @@ jobs:
 
   
 - name: bbr-restore-director
-  serial: true
-  serial_groups:
-    - serial_lock
   plan:
-  - aggregate:
     - get: bbr-pipeline-tasks-repo
       trigger: true
+      passed:
+        - apply-director-changes
     - get: director-backup-bucket
       trigger: true
     - get: bbr-release
