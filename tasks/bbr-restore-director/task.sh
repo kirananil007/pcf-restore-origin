@@ -27,7 +27,7 @@ BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst
 DEPLOYMENT_GROUP_NAME=`BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director --ca-cert /var/tempest/workspaces/default/root_ca_certificate deployments | head -n1 | awk '{print $1;}'`
 echo " Name is  $DEPLOYMENT_GROUP_NAME"
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director -d "${DEPLOYMENT_GROUP_NAME}" -n cck --resolution delete_disk_reference --resolution delete_vm_reference
-echo "CLOUD STALE IDS REMOVED!!MANUAL TRIGGER2"
+echo "CLOUD STALE IDS REMOVED!!MANUAL TRIGGER3"
 EOF
 
 ##Apply Changes to ERT
