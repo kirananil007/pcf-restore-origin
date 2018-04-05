@@ -30,7 +30,7 @@ DG='$(cat dg | head -n1 | awk '{print $1;}')'
 
 echo " Name is  echo $(cat dg | head -n1 | awk '{print $1;}')"
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director -d "echo $(cat dg | head -n1 | awk '{print $1;}')" -n cck --resolution delete_disk_reference --resolution delete_vm_reference
-echo "CLOUD STALE IDS REMOVED!!MANUAL TRIGGER10001"
+echo "CLOUD STALE IDS REMOVED!!MANUAL TRIGGER666601"
 EOF
 
 ##Apply Changes to ERT
