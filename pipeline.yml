@@ -89,7 +89,7 @@ resources:
 - name: bbr-pipeline-tasks-repo
   type: git
   source:
-    uri: https://github.com/kirananil007/pcf_restore_bbr.git
+    uri: https://github.com/kirananil007/pcf_restore_refine.git
     branch: master
 - name: om-install
   type: s3
