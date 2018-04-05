@@ -24,12 +24,14 @@ ssh -i ~/ssh_access.pem -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${O
 cd /var/tempest/workspaces/default/
 sudo bosh2 alias-env sst-director -e ${BOSH_ADDRESS} --ca-cert root_ca_certificate
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director --ca-cert /var/tempest/workspaces/default/root_ca_certificate login
-BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director -d cf-965df3363954837f10b3 -n cck --resolution delete_disk_reference --resolution delete_vm_reference
+DEPLOYMENT_GROUP_NAME=$(BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director --ca-cert /var/tempest/workspaces/default/root_ca_certificate | head -n1 | awk '{print $1;}')
+echo "$DEPLOYMENT_GROUP_NAME"
+BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director -d ${DEPLOYMENT_GROUP_NAME} -n cck --resolution delete_disk_reference --resolution delete_vm_reference
 EOF
 
 ##Apply Changes to ERT
 echo "Applying changes to ERT"
-om -k --target "${OPSMAN_URL}" --username "${OPSMAN_USERNAME}" --password "${OPSMAN_PASSWORD}" apply-changes --ignore-warnings
+#om -k --target "${OPSMAN_URL}" --username "${OPSMAN_USERNAME}" --password "${OPSMAN_PASSWORD}" apply-changes --ignore-warnings
 
 
 
