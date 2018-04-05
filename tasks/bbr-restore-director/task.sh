@@ -21,13 +21,15 @@ ssh-add ~/ssh_access.pem
 
 ##Opsman login
 ssh -i ~/ssh_access.pem -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" <<EOF
+cd /var/tempest/workspaces/default/
 sudo bosh2 alias-env sst-director -e ${BOSH_ADDRESS} --ca-cert root_ca_certificate
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director --ca-cert /var/tempest/workspaces/default/root_ca_certificate login
+cd /home/ubuntu
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director --ca-cert /var/tempest/workspaces/default/root_ca_certificate deployments | head -n1 | awk '{print $1;}' > dg
 DG=$(cat dg)
 echo " Name is  $DG"
 BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} bosh2 -e sst-director -d "$DG" -n cck --resolution delete_disk_reference --resolution delete_vm_reference
-echo "CLOUD STALE IDS REMOVED!!MANUAL TRIGGER7"
+echo "CLOUD STALE IDS REMOVED!!MANUAL TRIGGER8"
 EOF
 
 ##Apply Changes to ERT
