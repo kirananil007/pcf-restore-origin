@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 ### setting opsman keys
-echo $OPSMAN_KEY  | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > ~/ssh_access.pem
+#echo $OPSMAN_KEY  | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > ~/ssh_access.pem
 chmod 600 ~/ssh_access.pem
 ssh-agent > ~/agent
 eval $(ssh-agent -s)
@@ -13,7 +13,7 @@ cd /var/tempest/workspaces/default/
 ls -al
 #sudo rm -rf /var/tempest/workspaces/default/deployments/bosh-state.json
 echo "REMOVED THE BOSH STATE JSON FILE"
-#EOF
+EOF
 
 ### applying changes to opsman director
 #om -k --target "${OPSMAN_URL}" --username "${OPSMAN_USERNAME}" --password "${OPSMAN_PASSWORD}" apply-changes --ignore-warnings
