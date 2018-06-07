@@ -4,7 +4,7 @@ resources:
   type: git
   source:
     branch: master
-    uri: https://github.com/kirananil007/pcf_restore_refine.git
+    uri: http://KAnil@stash.corp.web:7990/scm/~kanil/pcf-bbr-restore-gated.git
 - name: om-install
   type: s3
   source:
@@ -50,16 +50,32 @@ jobs:
     trigger: true
     passed:
       - import-om-installation
-  - task: apply-director-changes
-    file: bbr-pipeline-tasks-repo/tasks/apply-director-changes/task.yml
-    params:
-      SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
-      OPSMAN_URL: {{opsman-url}}
-      OPSMAN_USERNAME: {{opsman-username}}
-      OPSMAN_PASSWORD: {{opsman-password}}
-      OPSMAN_KEY: {{opsman-key}}
-      OPSMAN_USER_EC2: {{opsman-user-ec2}}
-      OPSMAN_IP: {{opsman-ip}}
+  - task: Runnning-Director-Changes
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: kiran007anil/pcf-docker
+          tag: release-candidate
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+          echo "DIRECTOR CHANGES APPLYING!"
+    on_success:
+      try:
+        task: apply-director-changes
+        file: bbr-pipeline-tasks-repo/tasks/apply-director-changes/task.yml
+        params:
+          SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
+          OPSMAN_URL: {{opsman-url}}
+          OPSMAN_USERNAME: {{opsman-username}}
+          OPSMAN_PASSWORD: {{opsman-password}}
+          OPSMAN_KEY: {{opsman-key}}
+          OPSMAN_USER_EC2: {{opsman-user-ec2}}
+          OPSMAN_IP: {{opsman-ip}}
 - name: bbr-restore-director
   plan:
   - get: bbr-pipeline-tasks-repo
