@@ -4,7 +4,7 @@ resources:
   type: git
   source:
     branch: master
-    uri: http://KAnil@stash.corp.web:7990/scm/~kanil/pcf-bbr-restore-gated.git
+    uri: https://github.com/kirananil007/pcf_restore_refine.git
 - name: om-install
   type: s3
   source:
