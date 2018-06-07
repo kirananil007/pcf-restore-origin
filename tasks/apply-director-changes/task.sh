@@ -9,11 +9,7 @@ ssh-add ~/ssh_access.pem
 
 ###login to opsman and removing bosh state file
 ssh -i ~/ssh_access.pem -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" <<EOF
-cd /var/tempest/workspaces/default/
-ls -al
 sudo rm -rf /var/tempest/workspaces/default/deployments/bosh-state.json
-cd /var/tempest/workspaces/default/deployments
-ls -al
 echo "REMOVED THE BOSH STATE JSON FILE"
 EOF
 
