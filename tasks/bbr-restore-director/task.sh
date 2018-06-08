@@ -8,7 +8,7 @@ cd ../binary/
 tar -xvf director-*.tar
 
 ## the restoration of bosh director
-./bbr director --private-key-path <(echo "${BBR_PRIVATE_KEY}") --username bbr --host "${BOSH_ADDRESS}" restore --artifact-path 192.168.*
+./bbr director --private-key-path <(echo "${BBR_PRIVATE_KEY}") --username bbr --host 192.168.6.11 restore --artifact-path 192.168.*
 
 sleep 120
 
