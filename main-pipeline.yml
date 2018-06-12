@@ -109,9 +109,9 @@ jobs:
       - apply-director-changes
     trigger: false
   - get: director-backup-bucket
-    trigger: true
+    #trigger: true
   - get: bbr-release
-    trigger: true
+    #trigger: true
   - task: extract-binary
     config:
       platform: linux
