@@ -160,6 +160,7 @@ jobs:
       BOSH_CLIENT: {{bosh-client}}
       BOSH_CLIENT_SECRET: {{bosh-client-secret}}
       OPSMAN_URL: {{opsman-url}}
+      OPSMAN_USER_EC2: {{opsman-user-ec2}}
       OPSMAN_USERNAME: {{opsman-username}}
       OPSMAN_PASSWORD: {{opsman-password}}
       OPSMAN_KEY: {{opsman-key}}     
