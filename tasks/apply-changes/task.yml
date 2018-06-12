@@ -14,7 +14,9 @@ inputs:
 
 params:
   SKIP_SSL_VALIDATION: false
-  BOSH_ADDRESS:
+  OPSMAN_URL:
+  OPSMAN_USERNAME:
+  OPSMAN_PASSWORD:
   
   
 
@@ -23,6 +25,6 @@ run:
   args:
   - -c
   - |
-    cd bbr-pipeline-tasks-repo/tasks/bbr-restore-director/
+    cd bbr-pipeline-tasks-repo/tasks/apply-changes/
     chmod +x task.sh
     ./task.sh

@@ -3,8 +3,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: kiran007anil/pcf-docker
-    tag: final1
+    repository: pivotalservices/bosh2-docker
+    tag: latest
 
 inputs:
   - name: bbr-pipeline-tasks-repo
@@ -14,7 +14,16 @@ inputs:
 
 params:
   SKIP_SSL_VALIDATION: false
+  OPSMAN_URL:
+  OPSMAN_USERNAME:
+  OPSMAN_PASSWORD:
+  OPSMAN_KEY:
+  OPSMAN_IP:
   BOSH_ADDRESS:
+  BOSH_USER: 
+  BOSH_PASSWORD:
+  BOSH_CLIENT:
+  BOSH_CLIENT_SECRET:
   
   
 
@@ -23,6 +32,6 @@ run:
   args:
   - -c
   - |
-    cd bbr-pipeline-tasks-repo/tasks/bbr-restore-director/
+    cd bbr-pipeline-tasks-repo/tasks/remove-cloud-ids/
     chmod +x task.sh
     ./task.sh
