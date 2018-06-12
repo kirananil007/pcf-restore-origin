@@ -90,18 +90,16 @@ jobs:
         args:
         - -c
         - |
-          echo "DIRECTOR CHANGES APPLYING!"
-    on_success:
-      try:
-        task: apply-director-changes
-        file: bbr-pipeline-tasks-repo/tasks/apply-director-changes/task.yml
-        params:
-          SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
-          OPSMAN_URL: {{opsman-url}}
-          OPSMAN_USERNAME: {{opsman-username}}
-          OPSMAN_PASSWORD: {{opsman-password}}           
-          OPSMAN_KEY: {{opsman-key}}
-          OPSMAN_IP: {{opsman-ip}}
+          echo "DIRECTOR CHANGES APPLYING!"   
+  - task: apply-director-changes
+    file: bbr-pipeline-tasks-repo/tasks/apply-director-changes/task.yml
+    params:
+      SKIP_SSL_VALIDATION: {{skip-ssl-validation}}
+      OPSMAN_URL: {{opsman-url}}
+      OPSMAN_USERNAME: {{opsman-username}}
+      OPSMAN_PASSWORD: {{opsman-password}}           
+      OPSMAN_KEY: {{opsman-key}}
+      OPSMAN_IP: {{opsman-ip}}
 
 
 - name: bbr-restore-director
