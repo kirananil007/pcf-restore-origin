@@ -8,7 +8,7 @@ image_resource:
 
 inputs:
   - name: bbr-pipeline-tasks-repo
-  - name: binary
+  #- name: binary
   - name: director-backup-bucket
 
 
