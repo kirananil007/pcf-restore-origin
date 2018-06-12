@@ -146,8 +146,8 @@ jobs:
 - name: remove-cloud-ids
   plan:
   - get: bbr-pipeline-tasks-repo
-    #passed:
-    #  - bbr-restore-director
+    passed:
+      - bbr-restore-director
     trigger: false
   - get: director-backup-bucket
     trigger: true
