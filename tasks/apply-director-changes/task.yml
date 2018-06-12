@@ -8,6 +8,7 @@ image_resource:
 
 inputs:
   - name: bbr-pipeline-tasks-repo
+  - name: stemcell-upload
 
 params:
   SKIP_SSL_VALIDATION: false
