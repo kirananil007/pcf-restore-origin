@@ -12,7 +12,7 @@ sleep 20
 ### applying changes to opsman director
 om -k --target "${OPSMAN_URL}" --username "${OPSMAN_USERNAME}" --password "${OPSMAN_PASSWORD}" curl -p /api/v0/installations -x POST -d '{"deploy_products": "none","ignore_warnings": true}'
  
-
+sleep 120
 
 echo "BOSH DIRECTOR DEPLOYED  SUCCESSFUL!"
 
