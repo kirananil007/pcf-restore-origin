@@ -2,10 +2,10 @@
 
 ##get stemcell contents to upload
 
-cd ../../../stemcell-upload
-om -k -t "${OPSMAN_URL}" --username "${OPSMAN_USERNAME}" --password "${OPSMAN_PASSWORD}" upload-stemcell -s light-bosh-stemcell-*
+#cd ../../../stemcell-upload
+#om -k -t "${OPSMAN_URL}" --username "${OPSMAN_USERNAME}" --password "${OPSMAN_PASSWORD}" upload-stemcell -s light-bosh-stemcell-*
 
-sleep 20
+#sleep 20
 
 
 

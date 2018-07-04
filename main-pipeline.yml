@@ -4,7 +4,7 @@ resources:
   type: git
   source:
     branch: master
-    uri: https://github.com/kirananil007/pcf_restore_refine.git
+    uri: https://github.com/kirananil007/pcf-restore-origin.git
 - name: om-install
   type: s3
   source:
@@ -14,15 +14,15 @@ resources:
     access_key_id: {{storage-access-key-id}}
     secret_access_key: {{storage-secret-access-key}}
     versioned_file: installation.zip
-- name: stemcell-upload
-  type: s3
-  source:
-    bucket: {{backup-artifact-bucket}}
-    region_name: {{storage-region}}
-    endpoint: {{storage-endpoint}}
-    access_key_id: {{storage-access-key-id}}
-    secret_access_key: {{storage-secret-access-key}}
-    versioned_file: light-bosh-stemcell-3468.42-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
+#- name: stemcell-upload
+#  type: s3
+#  source:
+#    bucket: {{backup-artifact-bucket}}
+#    region_name: {{storage-region}}
+#    endpoint: {{storage-endpoint}}
+#    access_key_id: {{storage-access-key-id}}
+#    secret_access_key: {{storage-secret-access-key}}
+#    versioned_file: light-bosh-stemcell-3468.42-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
 - name: director-backup-bucket
   type: s3
   source:
@@ -76,7 +76,7 @@ jobs:
     trigger: true
     passed:
       - remove-bosh-state
-  - get: stemcell-upload
+#  - get: stemcell-upload
   - task: Runnning-Director-Changes
     config:
       platform: linux
