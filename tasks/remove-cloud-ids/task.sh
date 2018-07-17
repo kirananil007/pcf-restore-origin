@@ -9,7 +9,7 @@ ssh-add ~/ssh_access.pem
 
 #login to opsman
 ssh -i ~/ssh_access.pem -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" -t "BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} BOSH_CA_CERT=/var/tempest/workspaces/default/root_ca_certificate BOSH_ENVIRONMENT=${BOSH_ADDRESS} bosh2 -d "${DEPLOYMENT_NAME}" -n cck --resolution delete_disk_reference --resolution delete_vm_reference"
-sleep 420
+#sleep 420
 #ssh -i ~/ssh_access.pem -o "StrictHostKeyChecking no"  "${OPSMAN_USER_EC2}"@"${OPSMAN_IP}" -t "BOSH_CLIENT=${BOSH_CLIENT} BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET} BOSH_CA_CERT=/var/tempest/workspaces/default/root_ca_certificate BOSH_ENVIRONMENT=${BOSH_ADDRESS} bosh2 -d p-mysql-0b8f90f2717b26fe844b -n cck --resolution delete_disk_reference --resolution delete_vm_reference"
 
 
